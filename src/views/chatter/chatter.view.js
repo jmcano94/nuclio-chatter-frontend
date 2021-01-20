@@ -10,17 +10,19 @@ const Chatter = () => {
 
 	const toast = useToast();
 	const {activeChat} = useChatContext();
-	console.log("renders")
-	handleNewChatMessage((message) => {
-		if(message.chat !== activeChat._id){
-			toast({
-				position: "top-right",
-				render: () => (
-					<MessageToast message={message}/>
-				),
-			})
-		}
-	})
+	if(activeChat) {
+		handleNewChatMessage((message) => {
+			if(message.chat !== activeChat._id){
+				toast({
+					position: "top-right",
+					render: () => (
+						<MessageToast message={message}/>
+					),
+				})
+			}
+		})
+	}
+
 
 	return (
 		<div className={styles.root}>

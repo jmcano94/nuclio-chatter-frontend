@@ -8,6 +8,7 @@ import {useEffect, useRef, useState} from "react";
 import {useChatContext} from "../../context";
 import fetchResource from "../../api";
 import {handleIncomingChatMessages, joinChat} from "../../api/socket";
+import {act} from "@testing-library/react";
 
 const ChatWindow = (props) => {
 	const user = getSessionUser();
@@ -30,7 +31,9 @@ const ChatWindow = (props) => {
 			setMessages([...messages, newMessage]);
 		}
 	}
-	handleIncomingChatMessages(addMessage);
+	if(activeChat){
+		handleIncomingChatMessages(addMessage);
+	}
 	let userName = '';
 	if(activeChat){
 		userName = activeChat.users.filter(u => u._id !== user.id)[0].name;
