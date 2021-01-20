@@ -1,6 +1,6 @@
 import {io} from 'socket.io-client';
 import {getUserToken} from "../auth";
-const API_URL = 'http://localhost:3001';
+const API_URL =  window.location.hostname === 'nuclio-chatter.netlify.app' ? "https://nuclio-chatter-back.herokuapp.com" : "http://localhost:3001";
 const token = getUserToken();
 const socket = io(API_URL, {
 	auth: {
