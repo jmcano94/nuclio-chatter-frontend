@@ -1,0 +1,41 @@
+.root{
+	height: 100%;
+	background-size: 100% 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.grid {
+	width: 60%;
+	height: 80%;
+	display: grid;
+	grid-template-columns: 2fr 10fr;
+	grid-template-rows: 1fr;
+	gap: 8px 8px;
+	grid-template-areas:
+    ". .";
+
+}
+
+.sideNav {
+	height: 100%;
+	box-shadow: 4px 4px 12px 4px rgba(16, 19, 28, 0.37);
+	backdrop-filter: blur( 4px );
+	-webkit-backdrop-filter: blur( 4px );
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	max-width: inherit;
+}
+
+.chat {
+	box-shadow: 4px 4px 12px 4px rgba(16, 19, 28, 0.37);
+	backdrop-filter: blur( 4px );
+	-webkit-backdrop-filter: blur( 4px );
+	border-radius: 10px;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}

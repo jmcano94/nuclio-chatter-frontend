@@ -1,0 +1,36 @@
+.drawerRoot {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	background: rgba(23, 39, 69, 0.8);
+	backdrop-filter: blur( 4px );
+	-webkit-backdrop-filter: blur( 4px );
+}
+
+.drawerHeading {
+	padding: 24px;
+}
+
+.userOption {
+	height: 60px;
+	display:flex;
+	align-items: center;
+	font-size: larger;
+	color: white;
+	box-sizing: border-box;
+	padding: 8px;
+	cursor: pointer;
+}
+
+.avatar{
+	flex-grow: 1;
+}
+
+.name {
+	flex-grow: 2;
+}
+
+.userOption:hover{
+	background: #F0CD97;
+	color: black;
+}

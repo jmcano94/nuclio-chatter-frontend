@@ -1,0 +1,47 @@
+.image {
+	height: 100%;
+	background-size: 100% 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.glass {
+	width: 60%;
+	height: 60%;
+	background: rgba( 255, 255, 255, 0.10 );
+	box-shadow: 0 8px 32px 0 rgba(12, 3, 3, 0.37);
+	backdrop-filter: blur( 11.5px );
+	-webkit-backdrop-filter: blur( 11.5px );
+	border-radius: 10px;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.form {
+	box-sizing: border-box;
+	width: 500px;
+	height: 400px;
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.input {
+	padding-bottom: 12px;
+}
+
+.button {
+	padding-bottom: 12px;
+	display: flex;
+	justify-content: center;
+}
+
+
+.header {
+	flex-direction: column;
+	display: flex;
+	justify-content: center;
+	margin-bottom: 36px;
+}

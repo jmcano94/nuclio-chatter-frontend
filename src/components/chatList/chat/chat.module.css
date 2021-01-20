@@ -1,0 +1,23 @@
+.root {
+	height: 60px;
+	display:flex;
+	align-items: center;
+	font-size: larger;
+	color: white;
+	box-sizing: border-box;
+	padding: 8px;
+	cursor: pointer;
+}
+
+.avatar{
+	flex-grow: 1;
+}
+
+.name {
+	flex-grow: 2;
+}
+
+.root:hover{
+	background: rgba(53, 81, 138, 0.5);
+}
+
