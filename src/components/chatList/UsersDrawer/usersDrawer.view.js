@@ -5,12 +5,13 @@ import {useChatContext} from "../../../context";
 
 const UsersDrawer = (props) =>{
 	const {isOpen, onClose, btnRef, availableUsers} = props;
-	const {setActiveChat} = useChatContext();
+	const {setActiveChat, setRefreshChats} = useChatContext();
 
 	const handleClickUser = (user) => {
 
 		fetchResource("POST", "chat", {body: {chatMembers: [user._id]}}).then(r => {
 			setActiveChat(r);
+			setRefreshChats(true);
 			onClose()
 		})
 	}

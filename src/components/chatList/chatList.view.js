@@ -7,6 +7,7 @@ import UsersDrawer from "./UsersDrawer";
 import {getSessionUser} from "../../api/auth";
 import fetchResource from "../../api";
 import {useSocket} from "../../api/socket";
+import {useChatContext} from '../../context';
 
 const ChatList = () => {
 	const [users, setUsers] = useState([]);
@@ -17,8 +18,8 @@ const ChatList = () => {
 	const {subscribeNewChat, subscribeNewUser} = useSocket();
 	const btnRef = useRef();
 	const [refreshUsers, setRefreshUsers] = useState(true);
-	const [refreshChats, setRefreshChats] = useState(true);
-
+	const {refreshChats, setRefreshChats} = useChatContext();
+	
 	useEffect(() => {
 		subscribeNewChat((newChat) => {
 			setRefreshChats(true);

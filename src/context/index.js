@@ -8,6 +8,7 @@ export const ChatContextProvider = (props) => {
 	const storageChat = getStorageObject("active-chat");
 	const [activeChat, setActiveChat] = useState(storageChat);
 	const [refresh, setRefresh] = useState(true);
+	const [refreshChats, setRefreshChats] = useState(true);
 	useEffect(() => {
 		if(activeChat !== undefined){
 			setStorageObject("active-chat", activeChat);
@@ -15,7 +16,7 @@ export const ChatContextProvider = (props) => {
 	}, [activeChat])
 
 	return (
-		<ChatContext.Provider value={{activeChat, setActiveChat, refresh, setRefresh}}>
+		<ChatContext.Provider value={{activeChat, setActiveChat, refresh, setRefresh, refreshChats, setRefreshChats}}>
 			{children}
 		</ChatContext.Provider>
 	);
@@ -23,6 +24,5 @@ export const ChatContextProvider = (props) => {
 
 
 export const useChatContext = () => {
-	const {activeChat, setActiveChat, refresh, setRefresh} = useContext(ChatContext);
-	return {activeChat, setActiveChat, refresh, setRefresh};
+	return useContext(ChatContext);
 }
