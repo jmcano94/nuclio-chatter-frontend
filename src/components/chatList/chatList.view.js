@@ -6,7 +6,7 @@ import {useEffect, useRef, useState} from "react";
 import UsersDrawer from "./UsersDrawer";
 import {getSessionUser} from "../../api/auth";
 import fetchResource from "../../api";
-import {handleNewChat, handleNewUser} from "../../api/socket";
+import {useSocket} from "../../api/socket";
 
 const ChatList = () => {
 	const [users, setUsers] = useState([]);
@@ -14,15 +14,34 @@ const ChatList = () => {
 	const [availableUsers, setAvailableUsers] = useState([]);
 	const sessionUser = getSessionUser();
 	const { isOpen, onOpen, onClose } = useDisclosure()
-	const btnRef = useRef()
+	const {subscribeNewChat, subscribeNewUser} = useSocket();
+	const btnRef = useRef();
+	const [refreshUsers, setRefreshUsers] = useState(true);
+	const [refreshChats, setRefreshChats] = useState(true);
 
 	useEffect(() => {
-		fetchResource("GET", "user").then(res => setUsers(res));
-	},[]);
+		subscribeNewChat((newChat) => {
+			setRefreshChats(true);
+		});
+	
+		subscribeNewUser((newUser) => {
+			setRefreshUsers(true);
+		})
+	})
 
 	useEffect(() => {
-		fetchResource("GET", "chat").then(res => setChats(res));
-	}, []);
+		fetchResource("GET", "user").then(res => {
+			setUsers(res);
+			setRefreshUsers(false);
+		});
+	},[refreshUsers]);
+
+	useEffect(() => {
+		fetchResource("GET", "chat").then(res =>{
+			setChats(res);
+			setRefreshChats(false);
+		});
+	}, [refreshChats]);
 
 	useEffect(() => {
 		const userExistsInChats = (user,chatsArray) => {
@@ -43,13 +62,7 @@ const ChatList = () => {
 		}
 	},[users, chats])
 
-	handleNewChat((newChat) => {
-		setChats([...chats, newChat]);
-	});
-
-	handleNewUser((newUser) => {
-		setUsers([...users, newUser]);
-	})
+	
 
 	const onCloseDrawer = () => {
 		onClose();

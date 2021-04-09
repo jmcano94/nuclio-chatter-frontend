@@ -1,27 +1,31 @@
 import styles from './chatter.module.css';
 import ChatList from "../../components/chatList";
 import ChatWindow from "../../components/chatWindow";
-import {handleNewChatMessage} from "../../api/socket";
+import {useSocket, withSocket} from "../../api/socket";
 import MessageToast from "../../components/messageToast";
 import {useToast} from "@chakra-ui/react";
 import {useChatContext} from "../../context";
+import {useEffect} from "react";
 
 const Chatter = () => {
 
 	const toast = useToast();
+	const {subscribeNewChatMessage} = useSocket();
 	const {activeChat} = useChatContext();
-	if(activeChat) {
-		handleNewChatMessage((message) => {
-			if(message.chat !== activeChat._id){
-				toast({
-					position: "top-right",
-					render: () => (
-						<MessageToast message={message}/>
-					),
-				})
-			}
-		})
-	}
+	useEffect(() => {
+		if(activeChat) {
+			subscribeNewChatMessage((message) => {
+				if(message.chat !== activeChat._id){
+					toast({
+						position: "top-right",
+						render: () => (
+							<MessageToast message={message} />
+						),
+					})
+				}
+			});
+		};
+	}, [activeChat, toast]);
 
 
 	return (
@@ -37,4 +41,4 @@ const Chatter = () => {
 		</div>
 	)
 };
-export default Chatter;
+export default withSocket(Chatter);

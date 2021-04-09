@@ -1,8 +1,7 @@
-import styles from './App.module.css';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Login from "./views/login";
 import Signup from "./views/signup";
-import Chatter from "./views/chatter/chatter.view";
+import Chatter from "./views/chatter";
 import PrivateRoute from "./components/privateRoute";
 import {ChakraProvider} from "@chakra-ui/react";
 import theme from "./assets/theme";

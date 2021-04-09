@@ -1,39 +1,74 @@
 import {io} from 'socket.io-client';
 import {getUserToken} from "../auth";
-const API_URL =  window.location.hostname === 'nuclio-chatter.netlify.app' ? "https://nuclio-chatter-back.herokuapp.com" : "http://localhost:3001";
+import {createContext, useEffect, useContext} from 'react';
+import {API_URL} from '../index';
+
+const SocketContext = createContext(null);
+
 const token = getUserToken();
-const socket = io(API_URL, {
-	auth: {
-		token
+	const socket =io(API_URL, {
+		reconnectionDelayMax: 10000,
+		auth: {
+			token
+		}
+	});
+export const SocketContextProvider = ({children}) => {
+		
+	useEffect(() => {
+		socket.connect();
+		socket.on("connection", (data) => {
+			console.log("Connected");
+		});
+		return () => {
+			socket.disconnect();
+		}
+	}, [socket]);
+	const joinChat = (chatId) => {
+		socket.emit("join-chat", chatId);
+		socket.on("chat-joined", (data) => {
+			console.log(`Joined chat: ${data}`);
+		});
+	};
+	
+	const subscribeIncomingMessage = (callback) => {
+		socket.on("new-message", callback);
 	}
-});
+	
+	const subscribeNewChat = (callback) => {
+		socket.on("new-chat", callback);
+	}
+	
+	const subscribeNewUser = (callback) => {
+		socket.on("new-user", callback);
+	}
+	
+	const subscribeNewChatMessage = (callback) => {
+		socket.off("new-chat-message");
+		socket.on("new-chat-message", callback);
+	}
 
-socket.on("connection", (data) => {
-	console.log("Connected");
-});
+	const value = {
+		joinChat,
+		subscribeIncomingMessage,
+		subscribeNewChat,
+		subscribeNewUser,
+		subscribeNewChatMessage
+	}
 
-socket.on("chat-joined", (data) => {
-	console.log(`Joined chat: ${data}`);
-});
-
-export const joinChat = (chatId) => {
-	socket.emit("join-chat", chatId);
+	return (<SocketContext.Provider value={value} >
+		{children}
+	</SocketContext.Provider>)
+}
+export const useSocket = () => {
+	return useContext(SocketContext);
 };
 
-export const handleIncomingChatMessages = (callback) => {
-	socket.on("new-message", callback);
-}
+export const withSocket = Component => props => (<SocketContextProvider>
+	<Component {...props}/>
+</SocketContextProvider>);
 
-export const handleNewChat = (callback) => {
-	socket.on("new-chat", callback);
-}
 
-export const handleNewUser = (callback) => {
-	socket.on("new-user", callback);
-}
 
-export const handleNewChatMessage = (callback) => {
-	socket.on("new-chat-message", callback);
-}
 
-export default socket;
+
+

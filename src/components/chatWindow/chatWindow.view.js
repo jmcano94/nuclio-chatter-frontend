@@ -7,8 +7,7 @@ import {useHistory} from 'react-router-dom';
 import {useEffect, useRef, useState} from "react";
 import {useChatContext} from "../../context";
 import fetchResource from "../../api";
-import {handleIncomingChatMessages, joinChat} from "../../api/socket";
-import {act} from "@testing-library/react";
+import {useSocket} from "../../api/socket";
 
 const ChatWindow = (props) => {
 	const user = getSessionUser();
@@ -16,24 +15,28 @@ const ChatWindow = (props) => {
 	const {activeChat} = useChatContext();
 	const [messageBody, setMessageBody] = useState('');
 	const [messages, setMessages] = useState([]);
+	const {subscribeIncomingMessage, joinChat} = useSocket();
+	const [refresh, setRefresh] = useState(true);
 	useEffect(() => {
-		if(activeChat){
+		if(activeChat || refresh){
 			fetchResource("GET", `message/${activeChat._id}` ).then(res => {
 				setMessages(res);
+				setRefresh(false);
 			})
-			joinChat(activeChat._id);
 		}
 
-	},[activeChat]);
+	},[activeChat, refresh]);
 
-	const addMessage = (newMessage) => {
-		if(newMessage.chat === activeChat._id){
-			setMessages([...messages, newMessage]);
-		}
-	}
-	if(activeChat){
-		handleIncomingChatMessages(addMessage);
-	}
+	useEffect(()=> {
+			if(activeChat){
+				joinChat(activeChat._id);
+
+				subscribeIncomingMessage((newMessage) => {
+					setRefresh(true);
+				});
+			}
+	}, []);
+
 	let userName = '';
 	if(activeChat){
 		userName = activeChat.users.filter(u => u._id !== user.id)[0].name;

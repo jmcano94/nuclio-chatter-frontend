@@ -1,12 +1,22 @@
-.root {
-	height: 60px;
+.container {
 	display:flex;
-	align-items: center;
+}
+
+.root {
 	font-size: larger;
 	color: white;
 	box-sizing: border-box;
 	padding: 8px;
 	cursor: pointer;
+	background: rgba(53, 81, 138, 0.8);
+	backdrop-filter: blur( 4px );
+}
+
+.message {
+	max-width: 250px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .avatar{
@@ -15,4 +25,5 @@
 
 .name {
 	flex-grow: 2;
+	font-weight: bold;
 }
