@@ -1,18 +1,10 @@
-import {createContext, useContext, useEffect, useState} from "react";
-import {getStorageObject, setStorageObject} from "../api/storage";
+import {createContext, useContext, useState} from "react";
 
 const ChatContext = createContext();
 
 export const ChatContextProvider = (props) => {
 	const {children} = props;
-	const storageChat = getStorageObject("active-chat");
-	const [activeChat, setActiveChat] = useState(storageChat);
-
-	useEffect(() => {
-		if(activeChat !== undefined){
-			setStorageObject("active-chat", activeChat);
-		}
-	}, [activeChat])
+	const [activeChat, setActiveChat] = useState(undefined);
 
 	return (
 		<ChatContext.Provider value={{activeChat, setActiveChat}}>
