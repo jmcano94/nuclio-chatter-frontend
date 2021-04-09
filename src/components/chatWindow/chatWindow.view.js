@@ -18,11 +18,10 @@ const ChatWindow = (props) => {
 	const {subscribeIncomingMessage, joinChat} = useSocket();
 	const [refresh, setRefresh] = useState(true);
 	useEffect(() => {
-		if(activeChat || refresh){
+		if(activeChat){
 			fetchResource("GET", `message/${activeChat._id}` ).then(res => {
 				setMessages(res);
-				setRefresh(false);
-			})
+			});
 		}
 
 	},[activeChat, refresh]);
