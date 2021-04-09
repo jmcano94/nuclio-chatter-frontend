@@ -12,16 +12,19 @@ import {useSocket} from "../../api/socket";
 const ChatWindow = (props) => {
 	const user = getSessionUser();
 	const history = useHistory();
-	const {activeChat} = useChatContext();
+	const {activeChat, refresh, setRefresh} = useChatContext();
 	const [messageBody, setMessageBody] = useState('');
 	const [messages, setMessages] = useState([]);
 	const {subscribeIncomingMessage, joinChat} = useSocket();
-	const [refresh, setRefresh] = useState(true);
 	useEffect(() => {
-		if(activeChat){
-			fetchResource("GET", `message/${activeChat._id}` ).then(res => {
-				setMessages(res);
-			});
+
+		if(refresh) {
+			if(activeChat){
+				fetchResource("GET", `message/${activeChat._id}` ).then(res => {
+					setMessages(res);
+					setRefresh(false);
+				});
+			}
 		}
 
 	},[activeChat, refresh]);
@@ -65,6 +68,7 @@ const ChatWindow = (props) => {
 			evt.preventDefault();
 			fetchResource("POST",  `message/${activeChat._id}`, {body: {body: messageBody}}).then(() => {
 				setMessageBody('');
+				setRefresh(true);
 			});
 		}
 	}

@@ -7,7 +7,7 @@ const Chat = (props) => {
 	const {chat} = props;
 	const user = getSessionUser();
 	const userName = chat.users.filter(u=> u._id !== user.id).map(u=> u.name).join(',');
-	const {activeChat, setActiveChat} = useChatContext();
+	const {activeChat, setActiveChat, setRefresh} = useChatContext();
 
 	const rootStyle = {}
 	if(activeChat && activeChat._id === chat._id){
@@ -16,6 +16,7 @@ const Chat = (props) => {
 
 	const handleClickChat = () => {
 		setActiveChat(chat);
+		setRefresh(true);
 	}
 	return (
 		<div className={styles.root} style={rootStyle} onClick={handleClickChat}>
