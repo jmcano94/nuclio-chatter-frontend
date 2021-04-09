@@ -86,7 +86,7 @@ const ChatWindow = (props) => {
 					{messages.map(mess => (<ChatMessage message={mess}/>))}
 				</div>
 				<div className={styles.footer} >
-					<AutoTextArea placeholder="Write a message..." value={messageBody} onChange={handleMessageBody} onKeyDown={handleSendMessage}/>
+					{activeChat && <AutoTextArea placeholder="Write a message..." value={messageBody} onChange={handleMessageBody} onKeyDown={handleSendMessage}/>}
 				</div>
 			</div>
 		</div>
