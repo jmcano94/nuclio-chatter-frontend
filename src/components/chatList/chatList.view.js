@@ -42,7 +42,7 @@ const ChatList = () => {
 			setChats(res);
 			setRefreshChats(false);
 		});
-	}, [refreshChats]);
+	}, [refreshChats, setRefreshChats]);
 
 	useEffect(() => {
 		const userExistsInChats = (user,chatsArray) => {
@@ -61,7 +61,7 @@ const ChatList = () => {
 		}else if(!chats && users){
 			setAvailableUsers(users.filter(u => u._id !== sessionUser.id));
 		}
-	},[users, chats])
+	},[users, chats, sessionUser.id])
 
 	
 

@@ -25,7 +25,7 @@ const Chatter = () => {
 				}
 			});
 		};
-	}, [activeChat, toast]);
+	}, [activeChat, toast, subscribeNewChatMessage]);
 
 
 	return (

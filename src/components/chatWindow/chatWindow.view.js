@@ -27,7 +27,7 @@ const ChatWindow = (props) => {
 			}
 		}
 
-	},[activeChat, refresh]);
+	},[activeChat, refresh, setRefresh]);
 
 	useEffect(()=> {
 			if(activeChat){
@@ -37,7 +37,7 @@ const ChatWindow = (props) => {
 					setRefresh(true);
 				});
 			}
-	}, []);
+	}, [activeChat, joinChat, setRefresh, subscribeIncomingMessage]);
 
 	let userName = '';
 	if(activeChat){

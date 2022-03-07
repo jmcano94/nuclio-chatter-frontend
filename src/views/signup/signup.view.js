@@ -27,7 +27,7 @@ const Signup = (props) => {
 		setTimeout(() => {
 			onToggle();
 		}, 500);
-	}, []);
+	}, [onToggle]);
 
 	const { register, handleSubmit, errors, watch, setError, clearErrors } = useForm();
 	const onSubmit = data => {

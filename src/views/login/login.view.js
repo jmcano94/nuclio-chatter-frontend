@@ -16,7 +16,7 @@ const Login = (props) => {
 		setTimeout(() => {
 			onToggle();
 		}, 500);
-	}, []);
+	}, [onToggle]);
 
 	const { register, handleSubmit, errors, setError, clearErrors } = useForm();
 	const onSubmit = data => {

@@ -22,7 +22,7 @@ export const SocketContextProvider = ({children}) => {
 		return () => {
 			socket.disconnect();
 		}
-	}, [socket]);
+	}, []);
 	const joinChat = (chatId) => {
 		socket.emit("join-chat", chatId);
 		socket.on("chat-joined", (data) => {
